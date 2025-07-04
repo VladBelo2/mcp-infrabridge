@@ -1,4 +1,4 @@
-from fastapi import Header, HTTPException, Security
+from fastapi import HTTPException, Security
 from fastapi.security.api_key import APIKeyHeader
 from mcp_server.config import get_valid_api_keys
 
