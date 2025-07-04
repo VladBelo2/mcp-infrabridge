@@ -1,0 +1,15 @@
+services:
+  mcp:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: mcp-server
+    ports:
+      - "8000:8000"  # 🌐 MCP server exposed
+    volumes:
+      - ../:/app                      # 🧠 Mount source code (for dev or rebuilds)
+      - /var/run/docker.sock:/var/run/docker.sock  # 🔓 Allow Docker control
+    environment:
+      - PYTHONUNBUFFERED=1
+      - UVICORN_LOG_LEVEL=info
+    restart: unless-stopped
