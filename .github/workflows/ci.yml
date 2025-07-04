@@ -34,7 +34,7 @@ jobs:
       - name: 🧹 Lint Code (Black & Ruff)
         run: |
           black --check .
-          ruff .
+          ruff check .
 
       - name: 🐳 Build Docker Image
         run: |
