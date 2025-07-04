@@ -37,6 +37,10 @@ jobs:
           black --check .
           ruff check .
 
+      - name: 📄 Create .env file for docker-compose
+        run: |
+          echo "VALID_API_KEYS=${{ env.API_KEY }},another-key" > .env
+          
       - name: 🐳 Build Docker Image
         run: |
           docker build -f docker/Dockerfile -t mcp:ci .

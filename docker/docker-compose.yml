@@ -9,6 +9,8 @@ services:
     volumes:
       - ../:/app                      # 🧠 Mount source code (for dev or rebuilds)
       - /var/run/docker.sock:/var/run/docker.sock  # 🔓 Allow Docker control
+    env_file:
+      - ../.env # 📄 Load environment variables
     environment:
       - PYTHONUNBUFFERED=1
       - UVICORN_LOG_LEVEL=info
