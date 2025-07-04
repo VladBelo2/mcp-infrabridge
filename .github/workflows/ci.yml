@@ -40,7 +40,7 @@ jobs:
       - name: 📄 Create .env file for docker-compose
         run: |
           echo "VALID_API_KEYS=${{ env.API_KEY }},another-key" > .env
-          
+
       - name: 🐳 Build Docker Image
         run: |
           docker build -f docker/Dockerfile -t mcp:ci .
@@ -57,19 +57,19 @@ jobs:
 
       - name: 🧪 Test /tools/terraform_plan
         run: |
-          curl -s -H "X-API-Key: supersecret123" http://localhost:8000/tools/terraform_plan # | grep '"success":true'
+          curl -s -H "X-API-Key: $API_KEY" http://localhost:8000/tools/terraform_plan | grep '"success":true'
 
       - name: 🧪 Test /tools/ansible_ping
         run: |
-          curl -s -H "X-API-Key: $API_KEY" http://localhost:8000/tools/ansible_ping # | grep '"success":true'
+          curl -s -H "X-API-Key: $API_KEY" http://localhost:8000/tools/ansible_ping | grep '"success":true'
 
       - name: 🧪 Test /tools/docker_build (dry run)
         run: |
-          curl -s -H "X-API-Key: $API_KEY" "http://localhost:8000/tools/docker_build?path=examples/docker_sample&tag=mcp/test-image:ci" # | grep '"success":true'
+          curl -s -H "X-API-Key: $API_KEY" "http://localhost:8000/tools/docker_build?path=examples/docker_sample&tag=mcp/test-image:ci" | grep '"success":true'
 
       - name: 🧪 Test /tools/k8s_apply (expect fail but valid)
         run: |
-          curl -s -H "X-API-Key: $API_KEY" "http://localhost:8000/tools/k8s_apply?file=examples/k8s_sample/deployment.yaml" # | grep '"success": false'
+          curl -s -H "X-API-Key: $API_KEY" "http://localhost:8000/tools/k8s_apply?file=examples/k8s_sample/deployment.yaml" | grep '"success": false'
 
       - name: 🧹 Shut down MCP
         if: always()
