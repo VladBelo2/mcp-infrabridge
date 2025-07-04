@@ -8,19 +8,27 @@ router = APIRouter()
 
 EXAMPLES_DIR = "/app/examples/terraform_sample"
 
+
 @router.get("/terraform_plan", response_model=TerraformPlanResponse)
 def run_terraform_plan(api_key: str = Depends(get_api_key)):
     try:
         if not os.path.exists(f"{EXAMPLES_DIR}/main.tf"):
-            return {"success": False, "error": "No Terraform config found in sample directory"}
+            return {
+                "success": False,
+                "error": "No Terraform config found in sample directory",
+            }
 
-        subprocess.run(["terraform", "init"], cwd=EXAMPLES_DIR, check=True, capture_output=True)
-        result = subprocess.run(["terraform", "plan"], cwd=EXAMPLES_DIR, capture_output=True, text=True)
+        subprocess.run(
+            ["terraform", "init"], cwd=EXAMPLES_DIR, check=True, capture_output=True
+        )
+        result = subprocess.run(
+            ["terraform", "plan"], cwd=EXAMPLES_DIR, capture_output=True, text=True
+        )
 
         return {
             "success": result.returncode == 0,
             "stdout": result.stdout,
-            "stderr": result.stderr
+            "stderr": result.stderr,
         }
 
     except subprocess.CalledProcessError as e:
@@ -28,7 +36,7 @@ def run_terraform_plan(api_key: str = Depends(get_api_key)):
             "success": False,
             "error": str(e),
             "stderr": e.stderr,
-            "stdout": e.stdout
+            "stdout": e.stdout,
         }
     except Exception as e:
         return {"success": False, "error": str(e)}

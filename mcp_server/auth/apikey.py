@@ -7,6 +7,7 @@ VALID_KEYS = get_valid_api_keys()
 
 api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
 
+
 async def get_api_key(api_key: str = Security(api_key_header)):
     if api_key in VALID_KEYS:
         return api_key

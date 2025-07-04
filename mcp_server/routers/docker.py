@@ -5,11 +5,12 @@ import os
 
 router = APIRouter()
 
+
 @router.get("/docker_build")
 def docker_build(
     path: str = Query(..., description="Relative path to Docker build context"),
     tag: str = Query("mcp/test-image:latest", description="Docker image tag to apply"),
-    api_key: str = Depends(get_api_key)
+    api_key: str = Depends(get_api_key),
 ):
     try:
         full_path = os.path.abspath(f"/app/{path}")
@@ -21,7 +22,7 @@ def docker_build(
         return {
             "success": result.returncode == 0,
             "stdout": result.stdout,
-            "stderr": result.stderr
+            "stderr": result.stderr,
         }
     except Exception as e:
         return {"success": False, "error": str(e)}

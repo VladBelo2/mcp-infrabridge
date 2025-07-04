@@ -5,10 +5,11 @@ import os
 
 router = APIRouter()
 
+
 @router.get("/k8s_apply")
 def k8s_apply(
     file: str = Query(..., description="Path to Kubernetes YAML manifest"),
-    api_key: str = Depends(get_api_key)
+    api_key: str = Depends(get_api_key),
 ):
     try:
         full_path = os.path.abspath(f"/app/{file}")
@@ -20,7 +21,7 @@ def k8s_apply(
         return {
             "success": result.returncode == 0,
             "stdout": result.stdout,
-            "stderr": result.stderr
+            "stderr": result.stderr,
         }
     except Exception as e:
         return {"success": False, "error": str(e)}
