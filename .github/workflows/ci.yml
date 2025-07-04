@@ -57,15 +57,15 @@ jobs:
 
       - name: 🧪 Test /tools/ansible_ping
         run: |
-          curl -s -H "X-API-Key: ${{ env.API_KEY }}" http://localhost:8000/tools/ansible_ping # | grep '"success":true'
+          curl -s -H "X-API-Key: $API_KEY" http://localhost:8000/tools/ansible_ping # | grep '"success":true'
 
       - name: 🧪 Test /tools/docker_build (dry run)
         run: |
-          curl -s -H "X-API-Key: ${{ env.API_KEY }}" "http://localhost:8000/tools/docker_build?path=examples/docker_sample&tag=mcp/test-image:ci" # | grep '"success":true'
+          curl -s -H "X-API-Key: $API_KEY" "http://localhost:8000/tools/docker_build?path=examples/docker_sample&tag=mcp/test-image:ci" # | grep '"success":true'
 
       - name: 🧪 Test /tools/k8s_apply (expect fail but valid)
         run: |
-          curl -s -H "X-API-Key: ${{ env.API_KEY }}" "http://localhost:8000/tools/k8s_apply?file=examples/k8s_sample/deployment.yaml" # | grep '"success": false'
+          curl -s -H "X-API-Key: $API_KEY" "http://localhost:8000/tools/k8s_apply?file=examples/k8s_sample/deployment.yaml" # | grep '"success": false'
 
       - name: 🧹 Shut down MCP
         if: always()
